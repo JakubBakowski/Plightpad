@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "676689196904",
+    "firebase_url": "https://plightpad-966af.firebaseio.com",
+    "project_id": "plightpad-966af",
+    "storage_bucket": "plightpad-966af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676689196904:android:6bd85e256c916538",
+        "android_client_info": {
+          "package_name": "com.plightpad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "676689196904-bse0s1103nm84propss7ika62pp230i9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plightpad",
+            "certificate_hash": "56ca5fe81343869ca4263253cc74880c5a7a1422"
+          }
+        },
+        {
+          "client_id": "676689196904-lfqlem2tbfdrspijsd1ighpbc8kivo8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plightpad",
+            "certificate_hash": "dc892841a3316ae78b717b09eb366a3e5e911232"
+          }
+        },
+        {
+          "client_id": "676689196904-k4ierj2p4qdoulqpi1v7tai8mu30flso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ6tCHV5I24bOvhRgMbIF-clPC-ocRcT8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "676689196904-k4ierj2p4qdoulqpi1v7tai8mu30flso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

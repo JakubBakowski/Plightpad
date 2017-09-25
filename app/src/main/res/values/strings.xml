@@ -1,0 +1,119 @@
+<resources>
+    <string name="app_name">PlightPad</string>
+
+    <!--LOGIN-->
+    <string name="login_title_text">Zaloguj się</string>
+    <string name="login_email_input">Wprowadź email</string>
+    <string name="login_password_input">Wprowadź hasło</string>
+    <string name="google_login_text">   Zaloguj się z Google</string>
+    <string name="facebook_login_text">   Zaloguj się z Facebook</string>
+    <string name="twitter_login_text">   Zaloguj się z Twitter</string>
+    <string name="custom_login_text">Zaloguj się</string>
+    <string name="custom_register_text">Zarejestruj się</string>
+    <string name="signout_text">Wyloguj się </string>
+    <string name="continue_from_login">Dalej</string>
+    <string name="successful_login">Pomyślnie zalogowano</string>
+    <string name="successful_logout">Pomyślnie wylogowano</string>
+    <string name="login_failed">Nie udało się zalogować</string>
+    <string name="authentication_failed">Wystąpił problem z autoryzacją</string>
+    <string name="welcome_user">Witaj:\u0020</string>
+    <string name="wrong_email">Błędnie wpisany email </string>
+    <string name="wrong_password">Błędnie wpisane hasło </string>
+    <string name="sending_email_verification_error">Błąd wysyłania potwierdzenia na maila </string>
+    <string name="sending_email_verification_success">Pomyślnie wysłano potwierdzenie na mail: \n </string>
+
+    <!--FACEBOOK-->
+    <string name="facebook_app_id">1389745497741508</string>
+    <string name="fb_login_protocol_scheme">8dca090d03b69c9fb44622a4f2114d76</string>
+
+    <!--TWITTER-->
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">Yw9Bs6n1cYjSKJyKGL9gKATCD</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">mmn4UEFvWLE8uQckFci3PhPVkg9peZeD0m6nukjJt3hJQGQBre</string>
+    <!--OTHERS-->
+    <string name="loading">Ładowanie</string>
+    <string name="lane_for_admin_list_view">Tor</string>
+    <!--Gilotyna-->
+
+    <string name="profile">Profil</string>
+    <string name="feed">FEED</string>
+    <string name="activity">Super Bar</string>
+    <string name="settings">Ustawienia</string>
+    <string name="admin_add_course_lanes_photos">Dodaj zdjęcia torów</string>
+    <string name="admin_add_course_photo">Dodaj zdjęcie pola</string>
+    <string name="admin_info">Dodawanie nowego pola</string>
+    <string name="admin_edit_lane_name">Wpisz nazwę pola</string>
+    <string name="admin_add_ready_course">Dodaj pole</string>
+    <string name="admin_add_city">Wpisz miasto</string>
+    <string name="admin_add_country">Wpisz państwo</string>
+    <string name="admin_add_address">Wpisz adres</string>
+    <string name="admin_add_lanes_length">Podaj długość torów</string>
+
+
+    <!--Cell list-->
+    <string name="best_score_folding">Rekord:\u0020 </string>
+    <string name="course_lane_length_folding">Długość torów:\u0020 </string>
+    <string name="type_of_course_folding">Rodzaj nawierzchni:\u0020 </string>
+
+    <!--ADMIN-->
+    <string name="admin_adding_image_failed">Dodawanie zdjęć nie powiodło się.</string>
+    <string name="admin_add_course_not_valid_names">Niektóre pola formularza pozostały puste!</string>
+    <string name="admin_successful_course_adding">Pomyślnie dodane pole.</string>
+    <string name="admin_edit_best_score">Podaj rekord pola</string>
+
+    <!--FAB-->
+    <string name="FAB_Choose">Wybierz</string>
+    <string name="FAB_forward">Dodaj pole</string>
+    <string name="FAB_new_round">Zagraj runde</string>
+    <string name="FAB_apply_new_round">Zagraj runde</string>
+    <string name="FAB_cancer">Cofnij</string>
+
+    <!--NumberPicker-->
+    <string name="desc_button_increase">increase</string>
+    <string name="desc_button_decrease">decrease</string>
+    <string name="see_more_course">Zobacz więcej</string>
+    <string name="to_weak_password">Twoje hasło jest zbyt krótkie.</string>
+    <string name="google_web_client_id">676689196904-k4ierj2p4qdoulqpi1v7tai8mu30flso.apps.googleusercontent.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_round_settings">RoundSettingsActivity</string>
+    <!--<string name="google_web_client_id">AIzaSyBzJjME9nQLP5w0vc0832Sl1ZrDfAQTVcY</string>-->
+
+    <!--ROUND ACTIVITY-->
+    <string name="please_write_player_name">Wprowadź nazwę gracza</string>
+    <string name="add_to_your_courses">Dodaj do swoich pól</string>
+    <string name="no_ball_added">Nie dodano jeszcze piłki.</string>
+    <string name="set_number_of_players">Wprowadź liczbę graczy</string>
+    <string name="edit_the_ball">Edycja piłki</string>
+    <string name="cancel_ball">Cofnij</string>
+    <string name="save_ball">Zapisz</string>
+    <string name="own_ball_name_input">Wprowadź własną nazwę piłki</string>
+    <string name="ball_manufacturer_input">Wprowadź producenta</string>
+    <string name="ball_weight_input">Wprowadź wagę</string>
+    <string name="ball_size_input">Wprowadź wielkość</string>
+    <string name="ball_model_input">Wprowadź model</string>
+    <string name="ball_hardness_input">Wprowadź twardość piłki</string>
+    <string name="add_ball_photo">Dodaj zdjęcie</string>
+    <string name="dialog_help_message">Przeciągnij by wyłączyć.</string>
+    <string name="dialog_message">Pomyślnie zakończone operacje.</string>
+    <string name="edit_ball_failed">Co najmniej nazwa lub model piłki muszą być wypełnione!</string>
+    <string name="input_names_round_activity">Podaj nazwy wszystkich graczy</string>
+    <string name="start_round">Rozpocznij</string>
+    <string name="next_lane">Następny tor</string>
+    <string name="show_results">Pokaż wyniki</string>
+    <string name="successfull_course_adding">Pomyślnie dodano pole.</string>
+    <string name="ball">Piłki</string>
+    <string name="add_ball_text">Dodaj piłkę</string>
+    <string name="add_ball">Dodaj piłke</string>
+    <string name="course">Pola</string>
+    <string name="my_profile">Mój profil</string>
+    <string name="choose_ball_title">Wybierz piłkę</string>
+    <string name="edit_settings">Ustawienia</string>
+    <string name="logout_message">Na pewno chcesz się wylogować?</string>
+    <string name="logout">Wyloguj</string>
+    <string name="default_name">Gracz</string>
+    <string name="dialog_logout_cancel">Anuluj</string>
+    <string name="alerter_default_title">Informacja</string>
+    <string name="attach_ball_to_the_lane">Przypisz piłkę</string>
+    <string name="attach_notes_photo_to_the_lane">Dołącz zdjęcie</string>
+</resources>

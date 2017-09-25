@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#66BB6A</color>
+    <color name="colorPrimaryDark">#2E7D32</color>
+    <color name="colorAccent">#d81b60</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="grey">#e5e5e5</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="semi_transparent">#68ffffff</color>
+    <color name="semi_transparent_black">#68000000</color>
+    <color name="semi_transparent_green">#66bb6a</color>
+    <color name="semi_transparent_th9">#961b5e20</color>
+
+    <!--MATERIAL INDIGO THEME COLORS-->
+    <color name="th0">#E8F5E9</color>
+    <color name="th1">#C8E6C9</color>
+    <color name="th2">#A5D6A7</color>
+    <color name="th3">#81C784</color>
+    <color name="th4">#66BB6A</color>
+    <color name="th5">#4CAF50</color>
+    <color name="th6">#43A047</color>
+    <color name="th7">#388E3C</color>
+    <color name="th8">#2E7D32</color>
+    <color name="th9">#1B5E20</color>
+    <color name="thA">#B9F6CA</color>
+    <color name="thB">#69F0AE</color>
+    <color name="thC">#00E676</color>
+    <color name="thD">#00C853</color>
+
+    <!-- GUILLOTINE COLORS-->
+    <color name="guillotine_background">#5c6bc0</color>
+    <color name="guillotine_background_dark">#3949ab</color>
+    <color name="selected_item_color">#30d1d5</color>
+
+    <!--CELL LIST-->
+    <color name="bgBackSideColor">#f4f0ff</color>
+    <color name="bgTitleLeft">#594691</color>
+    <color name="bgTitleRight">#ffffff</color>
+    <color name="bgContentTop">#594691</color>
+    <color name="bgContent">#ffffff</color>
+    <color name="contentDividerLine">#e0e0e0</color>
+    <color name="contentBadgeTitle">#a9a9a9</color>
+    <color name="titleBadgeTitle">#adafb1</color>
+    <color name="titleBadgeText">#adafb1</color>
+    <color name="mainTextColor">#343d43</color>
+    <color name="btnRequest">#ffbf12</color>
+    <color name="black_overlay">#66000000</color>
+
+    <!--FLABBY LIST-->
+    <color name="flabby1">#533949ab</color>
+    <color name="flabby2">#535c6bc0</color>
+
+    <!--FANCY BUTTON COLORS-->
+    <color name="accept_btn_color">#8bc34a</color>
+    <color name="accept_btn_color_ripple">#f0f4c3</color>
+    <color name="decline_btn_color">#f44336</color>
+    <color name="decline_btn_color_ripple">#ef9a9a</color>
+    <color name="neutral_btn_color">#29b6f6</color>
+    <color name="neutral_btn_color_ripple">#b3e5fc</color>
+    <color name="warning_btn_color">#ff9800</color>
+    <color name="warning_btn_color_ripple">#ffe0b2</color>
+
+    <!--SOME GRAY-->
+    <color name="gray_material_A">#757575</color>
+    <color name="gray_material_B">#616161</color>
+    <color name="gray_material_C">#424242</color>
+    <color name="gray_material_D">#212121</color>
+    <color name="bgSolidDark">#55000000</color>
+
+    <!--RESULT COLORS-->
+    <color name="drawing_pen_color">#007fc9</color>
+</resources>

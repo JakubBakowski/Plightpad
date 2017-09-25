@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/whole_layout_round_activity"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    tools:context="com.plightpad.RoundActivity">
+
+    <ListView
+        android:id="@+id/list_view_persons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:dividerHeight="2dp"
+        android:divider="@color/accept_btn_color"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="128dp" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:orientation="vertical" >
+
+
+    </LinearLayout>
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/next_line_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@color/neutral_btn_color"
+        android:textSize="0dp"
+        android:padding="0dp"
+        android:layout_marginRight="28dp"
+        android:textAlignment="center"
+        fancy:fb_defaultColor="@color/neutral_btn_color"
+        fancy:fb_focusColor="@color/neutral_btn_color_ripple"
+        fancy:fb_fontIconResource="&#xf0a9;"
+        fancy:fb_fontIconSize="48sp"
+        fancy:fb_iconPaddingLeft="2dp"
+        fancy:fb_iconPaddingRight="2dp"
+        fancy:fb_radius="56dp"
+        fancy:fb_text="@string/next_lane"
+        android:layout_marginBottom="74dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/show_results_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/neutral_btn_color"
+        android:padding="0dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="20dp"
+        fancy:fb_borderColor="@color/neutral_btn_color"
+        fancy:fb_borderWidth="2dp"
+        fancy:fb_defaultColor="@color/neutral_btn_color"
+        fancy:fb_focusColor="@color/semi_transparent"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="@string/show_results"
+        fancy:fb_textSize="16sp"
+        android:layout_above="@+id/progress_1"
+        android:layout_centerHorizontal="true" />
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/previous_line_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@color/neutral_btn_color"
+        android:textSize="0dp"
+        android:padding="0dp"
+        android:layout_marginLeft="28dp"
+        android:textAlignment="center"
+        fancy:fb_defaultColor="@color/neutral_btn_color"
+        fancy:fb_focusColor="@color/neutral_btn_color_ripple"
+        fancy:fb_fontIconResource="&#xf0a8;"
+        fancy:fb_fontIconSize="48sp"
+        fancy:fb_iconPaddingLeft="2dp"
+        fancy:fb_iconPaddingRight="2dp"
+
+        fancy:fb_radius="56dp"
+        fancy:fb_text="@string/next_lane"
+        android:layout_marginBottom="74dp"
+        android:layout_alignParentBottom="true"/>
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/progress_1"
+        app:rcBackgroundPadding="5dp"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <include layout="@layout/result_view_layout"/>
+
+</RelativeLayout>

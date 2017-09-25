@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_centerInParent="true"
+    android:id="@+id/result_vectors_layout"
+    android:orientation="horizontal">
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector1"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+        <!--app:vector="@drawable/ic_one_square_result" />-->
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector2"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@id/result_vector1"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector3"
+        android:layout_width="42dp"
+        android:layout_toEndOf="@id/result_vector2"
+        android:layout_height="50dp"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector4"
+        android:layout_toEndOf="@id/result_vector3"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector5"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@id/result_vector4"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector6"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@id/result_vector5"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+    <com.richpath.RichPathView
+        android:id="@+id/result_vector7"
+        android:layout_width="42dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@id/result_vector6"
+        /><!--app:vector="@drawable/ic_one_square_result" />--> 
+
+</RelativeLayout>

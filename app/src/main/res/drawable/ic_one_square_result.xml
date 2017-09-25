@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="50dp"
+    android:height="50dp"
+    android:viewportWidth="4.0"
+    android:viewportHeight="5.0">
+
+    <path
+        android:name="outline"
+        android:pathData="M0.0,2.0 L4.0,2.0 L4.0,5.0 M0.0, 2.0 L0.0, 5.0 L4.0, 5.0"
+        android:strokeLineCap="round"
+        android:strokeColor="#5D5D5D"
+        android:strokeWidth="0.3"
+        android:strokeLineJoin="round"/>
+
+    <path
+        android:name="inline_cross"
+        android:pathData="M0.0,5.0 L4.0,2.0"
+        android:strokeLineCap="round"
+        android:strokeColor="#007fc9"
+        android:strokeWidth="0.5"
+        android:strokeLineJoin="round"/>
+
+    <path
+        android:name="inline_horizontal"
+        android:pathData="M0.0,3.5 L4.0,3.5"
+        android:strokeLineCap="round"
+        android:strokeColor="#007fc9"
+        android:strokeWidth="0.5"
+        android:strokeLineJoin="round"/>
+
+    <path
+        android:name="filling_down_triangle"
+        android:pathData="M0.0,5.0 L4.0,2.5 M4.0, 2.5 L1.1, 5.0, M1.1, 5.0, L4.0, 3.5, M4.0, 3.8 L2.1, 5.0 M2.1, 5.0 L3.0, 4.8"
+        android:strokeLineCap="round"
+        android:strokeColor="#007fc9"
+        android:strokeWidth="0.6"
+        android:strokeLineJoin="round"/>
+
+</vector>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.plightpad.RoundSettingsActivity">
+
+    <TextView
+        android:id="@+id/text_input_players"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/input_names_round_activity"
+        android:textSize="32sp" />
+
+    <ListView
+        android:id="@+id/list_view_players"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_input_players"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:divider="@color/accept_btn_color"
+        android:dividerHeight="2dp" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/start_round_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/neutral_btn_color"
+        android:gravity="center"
+        android:textSize="0dp"
+        android:padding="8dp"
+        fancy:fb_defaultColor="@color/neutral_btn_color"
+        fancy:fb_focusColor="@color/neutral_btn_color_ripple"
+        fancy:fb_fontIconResource="&#xf030;"
+        fancy:fb_fontIconSize="24sp"
+        fancy:fb_iconPaddingLeft="2dp"
+        fancy:fb_iconPaddingRight="0dp"
+        fancy:fb_radius="56dp"
+        fancy:fb_text="@string/start_round" />
+
+</RelativeLayout>

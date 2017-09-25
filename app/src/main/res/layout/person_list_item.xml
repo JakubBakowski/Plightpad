@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name_person"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/person_number_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/name_person"
+        android:layout_centerInParent="true"
+        app:np_dividerColor="@color/colorPrimary"
+        app:np_height="50dp"
+        android:layout_marginBottom="16dp"
+        app:np_max="7"
+        app:np_min="1"
+        app:np_orientation="horizontal"
+        app:np_selectedTextColor="@color/colorPrimary"
+        app:np_textColor="@color/colorPrimary"
+        app:np_value="3"
+
+         />
+</RelativeLayout>

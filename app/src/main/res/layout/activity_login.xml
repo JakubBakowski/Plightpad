@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_layout_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryDark"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    tools:context="com.plightpad.LoginActivity">
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="@string/login_title_text"
+            android:textColor="@color/white"
+            android:textSize="26sp" />
+
+
+        <android.support.design.widget.TextInputLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/login_email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            app:hintTextAppearance="@style/TextInputLayout">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="@string/login_email_input"
+                android:shadowColor="@color/white"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white"
+                android:textColorLink="@color/white"
+                android:textSize="16sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_email_edit_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            app:hintTextAppearance="@style/TextInputLayout">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="@string/login_password_input"
+                android:inputType="textPassword"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="16sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/email_password_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_password_edit_text"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/custom_register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:elevation="12dp"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/custom_register_text"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                app:rd_enable="true" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/custom_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:elevation="12dp"
+                android:padding="16dp"
+                android:text="@string/custom_login_text"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                app:rd_enable="true" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/google_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_password_buttons"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_sign_in_official_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/google_login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                fancy:fb_borderColor="@color/white"
+                fancy:fb_borderWidth="2dp"
+                fancy:fb_defaultColor="@color/transparent"
+                fancy:fb_focusColor="@color/semi_transparent"
+                fancy:fb_fontIconResource="&#xf0d5;"
+                fancy:fb_radius="30dp"
+                fancy:fb_text="@string/google_login_text"
+                fancy:fb_textSize="12sp" />
+
+        </FrameLayout>
+
+        <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/facebook_login_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/google_login_btn"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginLeft="32dp"-->
+        <!--android:layout_marginRight="32dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:elevation="10dp"-->
+        <!--android:padding="8dp"-->
+        <!--android:text="@string/facebook_login_text"-->
+        <!--android:textSize="16dp" />-->
+
+        <FrameLayout
+            android:id="@+id/facebook_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/google_button_layout"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/facebook_button_better"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/facebook_login_text"
+                fancy:fb_borderColor="@color/white"
+                fancy:fb_borderWidth="2dp"
+                fancy:fb_defaultColor="@color/transparent"
+                fancy:fb_focusColor="@color/semi_transparent"
+                fancy:fb_fontIconResource="&#xf09a;"
+                fancy:fb_radius="30dp"
+                fancy:fb_textSize="12sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/twitter_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/facebook_button_layout"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimaryDark">
+
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/twitter_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:visibility="gone" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/twitter_button_better"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/twitter_login_text"
+                fancy:fb_borderColor="@color/white"
+                fancy:fb_borderWidth="2dp"
+                fancy:fb_defaultColor="@color/transparent"
+                fancy:fb_focusColor="@color/semi_transparent"
+                fancy:fb_fontIconResource="&#xf099;"
+                fancy:fb_radius="30dp"
+                fancy:fb_textSize="12sp" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/semi_transparent_black"
+        android:visibility="gone">
+
+        <com.ldoublem.loadingviewlib.view.LVBlock
+            android:id="@+id/loading_login_activity"
+            android:layout_width="@dimen/loading_indicator_width"
+            android:layout_height="@dimen/loading_indicator_height"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

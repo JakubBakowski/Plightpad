@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ec="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.plightpad.LanesActivity">
+
+    <RelativeLayout
+        android:id="@+id/ec_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <com.plightpad.overridenec.ECBackgroundSwitcherViewOverriden
+                android:id="@+id/ec_bg_switcher_element"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.plightpad.items.ItemsCountView
+                android:id="@+id/items_count_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                android:clipChildren="false"
+                android:orientation="horizontal" />
+
+            <com.plightpad.overridenec.ECPagerViewOverriden
+                android:id="@+id/ec_pager_element"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                ec:cardHeaderHeightExpanded="150dp"
+                ec:cardHeight="200dp"
+                ec:cardWidth="250dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loading_relative_layout_lanes_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/semi_transparent_black"
+            android:visibility="gone">
+
+            <com.ldoublem.loadingviewlib.view.LVBlock
+                android:id="@+id/loading_lanes_activity"
+                android:layout_width="@dimen/loading_indicator_width"
+                android:layout_height="@dimen/loading_indicator_height"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/semi_transparent_black"
+        android:visibility="gone">
+
+        <com.ldoublem.loadingviewlib.view.LVBlock
+            android:id="@+id/loading_login_activity"
+            android:layout_width="@dimen/loading_indicator_width"
+            android:layout_height="@dimen/loading_indicator_height"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/edit_the_ball_whole_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/semi_transparent_black"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/edit_the_ball_whole_layout_inner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/dialog_background_shape"
+            android:elevation="10dp"
+            android:padding="16dp"
+            >
+
+            <include layout="@layout/edit_the_ball" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <include layout="@layout/choose_the_ball_for_lane" />
+    </RelativeLayout>
+
+</RelativeLayout>

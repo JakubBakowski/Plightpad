@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="folded_image_dimen">128dp</dimen>
+    <dimen name="unfolded_image_height">196dp</dimen>
+    <dimen name="tool_bar_height">128dp</dimen>
+    <dimen name="loading_indicator_width">96dp</dimen>
+    <dimen name="loading_indicator_height">96dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="ball_info_icon_size">24dp</dimen>
+    <dimen name="profile_photo_size">64dp</dimen>
+    <dimen name="ball_info_icon_size_list">14dp</dimen>
+</resources>

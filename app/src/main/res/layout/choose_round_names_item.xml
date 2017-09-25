@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/name_input_round_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_email_edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColorHint="@color/thC"
+        app:hintTextAppearance="@style/TextInputLayoutDark">
+
+        <EditText
+            android:id="@+id/edit_text_round"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:hint="@string/please_write_player_name"
+            android:textAlignment="center"
+            android:textColor="@color/thC"
+            android:textColorHint="@color/thC"
+            android:textSize="16sp" />
+
+    </android.support.design.widget.TextInputLayout>
+</RelativeLayout>
