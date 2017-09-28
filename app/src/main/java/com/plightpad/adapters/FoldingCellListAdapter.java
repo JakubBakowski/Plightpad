@@ -24,12 +24,14 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.plightpad.LanesActivity;
 import com.plightpad.R;
-import com.plightpad.controllers.SugarCoursesController;
+import com.plightpad.boxdomain.Lane;
+import com.plightpad.repository.CoursesController;
 import com.plightpad.data.AlerterContent;
-import com.plightpad.items.ListItem;
-import com.plightpad.sugardomain.CourseSugar;
+import com.plightpad.boxdomain.Course;
 import com.plightpad.tools.DialogUtils;
 import com.plightpad.tools.IconUtils;
 import com.ramotion.foldingcell.FoldingCell;
@@ -39,9 +41,12 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.gpu.VignetteFilterTransformation;
+import solid.stream.Stream;
+
+import static solid.collectors.ToList.toList;
 
 
-public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
+public class FoldingCellListAdapter extends ArrayAdapter<Course> {
 
     private HashSet<Integer> unfoldedIndexes = new HashSet<>();
     private View.OnClickListener defaultRequestBtnClickListener;
@@ -49,28 +54,26 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
     private boolean isSearch;
 
     private Context context;
-    private List<CourseSugar> courseSugars;
+    private List<Course> courses;
 
-    public FoldingCellListAdapter(Context context, List<ListItem> objects, boolean isSearch, List<CourseSugar> courseSugars) {
+    public FoldingCellListAdapter(Context context, List<Course> objects, boolean isSearch, List<Course> courses) {
         super(context, 0, objects);
         this.context = context;
         this.isSearch = isSearch;
-        this.courseSugars = courseSugars;
+        this.courses = courses;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ListItem item = getItem(position);
+        Course course = getItem(position);
         FoldingCell cell = (FoldingCell) convertView;
         ViewHolder viewHolder;
 
         if (cell == null) {
-            // tworzymy potrzebne gówno
             viewHolder = new ViewHolder();
             LayoutInflater vi = LayoutInflater.from(getContext());
             cell = (FoldingCell) vi.inflate(R.layout.cell_layout, parent, false);
-            // przypisujemy do viewHoldera to co będziemy zmieniać - do zastapnienia przez BindView
             viewHolder.title = (TextView) cell.findViewById(R.id.title);
             viewHolder.countryCity = (TextView) cell.findViewById(R.id.country_city);
             viewHolder.titleFolded = (TextView) cell.findViewById(R.id.title_Folded);
@@ -79,11 +82,9 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
             viewHolder.bestScore = (TextView) cell.findViewById(R.id.bestScore);
             viewHolder.laneLength = (TextView) cell.findViewById(R.id.laneLength);
             viewHolder.type = (TextView) cell.findViewById(R.id.type);
-//            viewHolder.link = (TextView) cell.findViewById(R.id.link);
             viewHolder.contentRequestBtn = (TextView) cell.findViewById(R.id.contentRequestBtn);
             viewHolder.saveCourseToLocalDatabaseBtn = (TextView) cell.findViewById(R.id.saveCourseToLocalDatabaseBtn);
             viewHolder.unfoldedImage = (ImageView) cell.findViewById(R.id.head_image);
-//            viewHolder.foldedImage = (ImageView)cell.findViewById(R.id.folded_image_view);
             viewHolder.layoutImageBg = (RelativeLayout) cell.findViewById(R.id.relative_inner_cell_content);
 
             ViewTarget<RelativeLayout, GlideDrawable> viewTarget = new ViewTarget<RelativeLayout, GlideDrawable>(viewHolder.layoutImageBg) {
@@ -95,32 +96,18 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
 
             Glide.with(context)
                     .using(new FirebaseImageLoader())
-                    .load(FirebaseStorage.getInstance().getReference().child(item.getLink()))
+                    .load(FirebaseStorage.getInstance().getReference().child(course.imagePath))
                     .bitmapTransform(new FitCenter(context), new BlurTransformation(context, 25), new VignetteFilterTransformation(context, new PointF(0.5f, 0.5f),
                             new float[]{0.0f, 0.0f, 0.0f}, 0f, 0.75f))
                     .into(viewTarget);
             Glide.with(context)
                     .using(new FirebaseImageLoader())
-                    .load(FirebaseStorage.getInstance().getReference().child(item.getLink()))
-//                    .bitmapTransform(new BlurTransformation(context))
+                    .load(FirebaseStorage.getInstance().getReference().child(course.imagePath))
                     .asBitmap()
                     .fitCenter()
                     .into(viewHolder.unfoldedImage);
-//            try {
-//                viewHolder.bitmap = Glide.with(context)
-//                        .using(new FirebaseImageLoader())
-//                        .load(FirebaseStorage.getInstance().getReference().child(item.getLink()))
-//                        .asBitmap()
-//                        .into(-1,-1)
-//                        .get();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
             cell.setTag(viewHolder);
         } else {
-            // z domysłow sadze ze sprawdzamy czy rozwinieta czy zwinieta
             if (unfoldedIndexes.contains(position)) {
                 cell.unfold(true);
             } else {
@@ -129,20 +116,18 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
             viewHolder = (ViewHolder) cell.getTag();
         }
 
-        //poddalem się narazie xd
-        // zrobic funkcje
-        viewHolder.title.setText(item.getTitle());
-        viewHolder.countryCity.setText(item.getCountry() + COMMA + item.getCity());
-        viewHolder.type.setText(context.getResources().getString(R.string.type_of_course_folding) + item.getType());
-        viewHolder.laneLength.setText(context.getResources().getString(R.string.course_lane_length_folding) + item.getLaneLength());
-        viewHolder.bestScore.setText(context.getResources().getString(R.string.best_score_folding) + item.getBestScore());
-//        viewHolder.link.setText(item.getLink());
-        viewHolder.titleFolded.setText(item.getTitle());
-        viewHolder.countryFolded.setText(item.getCountry() + COMMA);
-        viewHolder.cityFolded.setText(item.getCity());
-        viewHolder.contentRequestBtn.setOnClickListener(s -> launchActivity(item, position));
+        viewHolder.title.setText(course.name);
+        viewHolder.countryCity.setText(course.country + COMMA + course.city);
+        viewHolder.type.setText(context.getResources().getString(R.string.type_of_course_folding) + course.surfaceType);
+        viewHolder.laneLength.setText(context.getResources().getString(R.string.course_lane_length_folding) + course.lanesLength);
+        viewHolder.bestScore.setText(context.getResources().getString(R.string.best_score_folding) + course.bestScore);
+        viewHolder.titleFolded.setText(course.name);
+        viewHolder.countryFolded.setText(course.country + COMMA);
+        viewHolder.cityFolded.setText(course.city);
+        viewHolder.contentRequestBtn.setOnClickListener(s -> launchActivity(course, position));
         viewHolder.saveCourseToLocalDatabaseBtn.setOnClickListener(s -> {
-            SugarCoursesController.saveSugarCourse(item.getCourse());
+            course.lanes.addAll(Stream.stream(course.firebaseLanes).map(lane -> new Lane(lane.name, lane.number, lane.imagePath)).collect(toList()));
+            CoursesController.save(course);
             AlerterContent alerterContent = new AlerterContent(
                     context.getResources().getString(R.string.alerter_default_title),
                     context.getResources().getString(R.string.successfull_course_adding),
@@ -150,21 +135,16 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
                     ContextCompat.getColor(context, R.color.accept_btn_color)
             );
             DialogUtils.showSimpleAlerter(context, alerterContent);
-//            DialogUtils.showBasicMessageDialog(context, context.getResources().getString(R.string.successfull_course_adding), true);
         });
         if (isSearch) {
             viewHolder.saveCourseToLocalDatabaseBtn.setVisibility(View.VISIBLE);
         } else {
             viewHolder.saveCourseToLocalDatabaseBtn.setVisibility(View.GONE);
         }
-
-        //to gowno do przemyslenia co z tego jest potrzebne
-        // set custom btn handler for list item from that item
-
+        
         return cell;
     }
 
-    // simple methods for register cell_layout state changes
     public void registerToggle(int position) {
         if (unfoldedIndexes.contains(position))
             registerFold(position);
@@ -188,7 +168,6 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
         this.defaultRequestBtnClickListener = defaultRequestBtnClickListener;
     }
 
-    // Przechowywacz
     private static class ViewHolder {
         TextView title;
         TextView countryCity;
@@ -207,12 +186,13 @@ public class FoldingCellListAdapter extends ArrayAdapter<ListItem> {
         Bitmap bitmap;
     }
 
-    private void launchActivity(ListItem item, int position) {
+    private void launchActivity(Course course, int position) {
         Intent intent = new Intent(context, LanesActivity.class);
-        intent.putExtra("COURSE", item.getCourse());
-        intent.putExtra("IS_SEARCH", isSearch);
-        if (courseSugars != null) {
-            intent.putExtra("COURSE_SUGAR_ID", courseSugars.get(position).getId());
+        intent.putExtra(LanesActivity.COURSE_ID, course.id);
+        intent.putExtra(LanesActivity.IS_SEARCH_COURSE_ACTIVITY, isSearch);
+        if(isSearch){
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            intent.putExtra(LanesActivity.COURSE, gson.toJson(course.firebaseLanes));
         }
         context.startActivity(intent);
     }

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,39 +21,40 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ldoublem.loadingviewlib.view.LVBlock;
 import com.plightpad.adapters.BallListAdapter;
 import com.plightpad.adapters.LanesListAdapter;
-import com.plightpad.controllers.SugarBallsController;
-import com.plightpad.controllers.SugarLanesController;
-import com.plightpad.firedomain.Course;
-import com.plightpad.firedomain.Lane;
+import com.plightpad.boxdomain.Course;
+import com.plightpad.repository.BallsController;
+import com.plightpad.repository.CoursesController;
+import com.plightpad.repository.LanesController;
 import com.plightpad.items.CardDataImpl;
 import com.plightpad.items.ItemsCountView;
 import com.plightpad.overridenec.ECBackgroundSwitcherViewOverriden;
 import com.plightpad.overridenec.ECCardDataOverriden;
 import com.plightpad.overridenec.ECPagerViewAdapterOverriden;
 import com.plightpad.overridenec.ECPagerViewOverriden;
-import com.plightpad.sugardomain.BallSugar;
-import com.plightpad.sugardomain.LaneSugar;
+import com.plightpad.boxdomain.Ball;
+import com.plightpad.boxdomain.Lane;
 import com.plightpad.tasks.CompressAndSaveNotesImageTask;
 import com.plightpad.tools.AnimationUtils;
 import com.plightpad.tools.DialogUtils;
 import com.plightpad.tools.GalleryUtils;
 import com.plightpad.tools.IconUtils;
-import com.plightpad.tools.IntentTags;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +65,16 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import lombok.Setter;
 import mehdi.sakout.fancybuttons.FancyButton;
+import solid.stream.Stream;
+
+import static solid.collectors.ToList.toList;
 
 public class LanesActivity extends AppCompatActivity {
 
+    public static final String TAG = "LanesActivity";
+    public static final String IS_SEARCH_COURSE_ACTIVITY = "IS_SEARCH";
+    public static final String COURSE_ID = "COURSE_ID";
+    public static final String COURSE = "COURSE";
     private static final int NUMBER_OF_LANES = 18;
 
     @BindView(R.id.ec_pager_element)
@@ -86,7 +96,6 @@ public class LanesActivity extends AppCompatActivity {
     private List<Bitmap> bitmaps;
     private List<Lane> courseLanes;
     private ECPagerViewAdapterOverriden adapter;
-    private List<LaneSugar> courseLanesSugar;
     private boolean isSearch;
     @Setter
     private boolean choosingNotesPhoto;
@@ -110,15 +119,16 @@ public class LanesActivity extends AppCompatActivity {
     }
 
     private void initializeLanesData() {
-        isSearch = getIntent().getExtras().getBoolean(IntentTags.IS_SEARCH_COURSE_ACTIVITY);
+        isSearch = getIntent().getBooleanExtra(IS_SEARCH_COURSE_ACTIVITY, false);
         bitmaps = new ArrayList<>();
         courseLanes = new ArrayList<>();
+        long courseId = getIntent().getLongExtra(COURSE_ID, 1L);
         if (isSearch) {
-            courseLanes = ((Course) getIntent().getSerializableExtra(IntentTags.COURSE)).getLanes();
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            String listSerializedToJson = getIntent().getExtras().getString(COURSE);
+            courseLanes = Stream.stream(gson.fromJson(listSerializedToJson, Lane[].class)).collect(toList());
         } else {
-            Long courseSugar = getIntent().getLongExtra("COURSE_SUGAR_ID", 1L);
-            courseLanesSugar = SugarLanesController.getSugarLanesByCourseId(courseSugar);
-            courseLanes = Lane.parseLaneSugarList(courseLanesSugar);
+            courseLanes = LanesController.getLanesByCourseId(courseId);
         }
         for (int i = 0; i < NUMBER_OF_LANES; i++) {
             bitmaps.add(null);
@@ -129,17 +139,24 @@ public class LanesActivity extends AppCompatActivity {
     private Bitmap notesPhoto;
 
     private void initializeListeners() {
-        attachPhotoToBallBtn.setOnClickListener(s -> GalleryUtils.pickPhoto(this));
-        saveBallBtn.setOnClickListener(s -> saveBall(getActualLaneSugar()));
+        attachPhotoToBallBtn.setOnClickListener(s -> GalleryUtils.pickOnePhoto(this));
+        saveBallBtn.setOnClickListener(s -> {
+            try {
+                saveBall(getActualLane());
+            } catch (NullPointerException exception) {
+                Log.d(TAG, "Nie istnieje taki tor.");
+                Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT);
+            }
+        });
     }
 
-    private LaneSugar getActualLaneSugar() {
-        for (LaneSugar laneSugar : courseLanesSugar) {
-            if (laneSugar.getNumber() == actualLane) {
-                return laneSugar;
+    private Lane getActualLane() throws NullPointerException {
+        for (Lane lane : courseLanes) {
+            if (lane.number == actualLane) {
+                return lane;
             }
         }
-        return null;
+        throw new NullPointerException();
     }
 
     private void initializeLaneBitmaps(final List<Lane> finalCourseLanes) {
@@ -148,13 +165,13 @@ public class LanesActivity extends AppCompatActivity {
         for (Lane s : finalCourseLanes) {
             Glide.with(this)
                     .using(new FirebaseImageLoader())
-                    .load(FirebaseStorage.getInstance().getReference().child(s.getImagePath()))
+                    .load(FirebaseStorage.getInstance().getReference().child(s.imagePath))
                     .asBitmap()
                     .into(new SimpleTarget<Bitmap>(metrics.widthPixels, metrics.heightPixels) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                            bitmaps.set(s.getNumber() - 1, bitmap); // Do something with bitmap here.
-                            updateImages(s.getNumber() - 1, bitmap);
+                            bitmaps.set(s.number - 1, bitmap); // Do something with bitmap here.
+                            updateImages(s.number - 1, bitmap);
                         }
                     });
         }
@@ -185,10 +202,10 @@ public class LanesActivity extends AppCompatActivity {
             for (Lane s : courseLanes) {
                 Bitmap b1 = bitmaps.get(ac.get());
                 Bitmap b2 = bitmaps.get(ac.get());
-                if (courseLanesSugar != null) {
-                    dataset.add(new CardDataImpl(s.getName(), s.getName(), s.getName(), b1, b2, courseLanesSugar.get(ac.getAndIncrement())));
+                if (courseLanes != null) {
+                    dataset.add(new CardDataImpl(s.name, s.name, s.name, b1, b2, courseLanes.get(ac.getAndIncrement())));
                 } else {
-                    dataset.add(new CardDataImpl(s.getName(), s.getName(), s.getName(), b1, b2, new LaneSugar()));
+                    dataset.add(new CardDataImpl(s.name, s.name, s.name, b1, b2, new Lane()));
                     ac.getAndIncrement();
                 }
             }
@@ -240,9 +257,9 @@ public class LanesActivity extends AppCompatActivity {
                 TextView title = (TextView) head.findViewById(R.id.lane_title);
                 title.setText(cardData.getCardTitle());
                 CircleImageView ballImageView = (CircleImageView) head.findViewById(R.id.ball_image_view);
-                if (cardData.getLane().getBall() != null) {
-                    if (cardData.getLane().getBall().getImagePath() != null) {
-                        new Thread(new LoadImagesFromStorage(LanesActivity.this, cardData.getLane().getBall().getImagePath(), ballImageView)).start();
+                if (cardData.getLane().ball.getTarget() != null) {
+                    if (cardData.getLane().ball.getTarget().getImagePath() != null) {
+                        new Thread(new LoadImagesFromStorage(LanesActivity.this, cardData.getLane().ball.getTarget().getImagePath(), ballImageView)).start();
                     } else {
                         ballImageView.setImageBitmap(IconUtils.getBallIconGreen(LanesActivity.this).toBitmap());
                     }
@@ -250,9 +267,9 @@ public class LanesActivity extends AppCompatActivity {
                     ballImageView.setImageBitmap(IconUtils.getBallIconGreen(LanesActivity.this).toBitmap());
                 }
                 TextView message = (TextView) head.findViewById(R.id.ball_name);
-                if (cardData.getLane().getBall() != null) {
-                    if (cardData.getLane().getBall().getMyName() != null) {
-                        message.setText(cardData.getLane().getBall().getMyName());
+                if (cardData.getLane().ball.getTarget() != null) {
+                    if (cardData.getLane().ball.getTarget().getMyName() != null) {
+                        message.setText(cardData.getLane().ball.getTarget().getMyName());
                     } else {
                         message.setText(getResources().getString(R.string.no_ball_added));
                     }
@@ -337,9 +354,9 @@ public class LanesActivity extends AppCompatActivity {
     @BindView(R.id.ball_model)
     public TextInputLayout ballModelTil;
 
-    private void saveBall(LaneSugar lane) {
+    private void saveBall(Lane lane) {
         if (validateBallForm()) {
-            BallSugar bs = new BallSugar(
+            Ball bs = new Ball(
                     ballOwnNameTil.getEditText().getText() != null ? ballOwnNameTil.getEditText().getText().toString() : "",
                     ballManufacturerTil.getEditText().getText() != null ? ballManufacturerTil.getEditText().getText().toString() : "",
                     ballModelTil.getEditText().getText() != null ? ballManufacturerTil.getEditText().getText().toString() : "",
@@ -350,10 +367,10 @@ public class LanesActivity extends AppCompatActivity {
         }
     }
 
-    private void saveLaneAndBall(BallSugar bs, LaneSugar lane) {
-        lane.setBall(bs);
-        SugarBallsController.saveBall(bs);
-        SugarLanesController.updateLaneBall(lane);
+    private void saveLaneAndBall(Ball bs, Lane lane) {
+        bs.getLanes().add(lane);
+        BallsController.saveBall(bs);
+        LanesController.updateLane(lane);
         ecPagerView.toggle();
         updateImages(1, null);
     }
@@ -369,7 +386,7 @@ public class LanesActivity extends AppCompatActivity {
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                            if(choosingNotesPhoto){
+                            if (choosingNotesPhoto) {
                                 notesPhoto = bitmap;
                                 choosingNotesPhoto = false;
                                 saveNotesPhotoAndAttachToTheLane();
@@ -383,7 +400,12 @@ public class LanesActivity extends AppCompatActivity {
     }
 
     private void saveNotesPhotoAndAttachToTheLane() {
-        new CompressAndSaveNotesImageTask(this, notesPhoto, getActualLaneSugar()).execute();
+        try {
+            new CompressAndSaveNotesImageTask(this, notesPhoto, getActualLane()).execute();
+        } catch (NullPointerException exception) {
+            Log.d(TAG, "Nie istnieje taki tor.");
+            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT);
+        }
     }
 
     private boolean validateBallForm() {
@@ -437,7 +459,6 @@ public class LanesActivity extends AppCompatActivity {
     }
 
 
-
     public void showBallListDialog() {
         ballListToggled = true;
         ballListLayout.setVisibility(View.VISIBLE);
@@ -450,20 +471,25 @@ public class LanesActivity extends AppCompatActivity {
     }
 
     public void initializeBallsList() {
-        List<BallSugar> ballSugars = SugarBallsController.getAllBalls();
-        BallListAdapter bla = new BallListAdapter(this, ballSugars, true);
+        List<Ball> balls = BallsController.getAllBalls();
+        BallListAdapter bla = new BallListAdapter(this, balls, true);
         ballListView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         ballListView.setLayoutManager(mLayoutManager);
         ballListView.setAdapter(bla);
     }
 
-    public void saveBallToActualLane(BallSugar bs) {
-        saveLaneAndBall(bs, getActualLaneSugar());
+    public void saveBallToActualLane(Ball bs) {
+        try {
+            saveLaneAndBall(bs, getActualLane());
+        } catch (NullPointerException exception) {
+            Log.d(TAG, "Nie istnieje taki tor.");
+            Toast.makeText(this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT);
+        }
         hideBallListView();
     }
 
-    public void loadImageIntoView(String path, ImageView imageView){
+    public void loadImageIntoView(String path, ImageView imageView) {
         new Thread(new LoadImagesFromStorage(LanesActivity.this, path, imageView)).start();
     }
 

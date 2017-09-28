@@ -3,16 +3,15 @@ package com.plightpad;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.InflateException;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.plightpad.adapters.PersonListViewAdapter;
+import com.plightpad.repository.ResultController;
 import com.plightpad.controllers.ResultVectorController;
 import com.plightpad.items.PersonItem;
-import com.plightpad.sugardomain.ResultSugar;
+import com.plightpad.boxdomain.CourseResult;
 import com.plightpad.tools.AnimationUtils;
 import com.plightpad.tools.DialogUtils;
 
@@ -50,7 +49,7 @@ public class RoundActivity extends AppCompatActivity {
 
     private PersonListViewAdapter personListViewAdapter;
     private int laneNumber = 0;
-    List<ResultSugar> playersResults = new ArrayList<>();
+    List<CourseResult> playersResults = new ArrayList<>();
 
     private int numberOfPlayers = 0;
     List<PersonItem> personItems;
@@ -60,20 +59,19 @@ public class RoundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round);
         ButterKnife.bind(this);
-        // #RADY: stała z adekwatna nazwa
         ArrayList<String> playersTemp = getIntent().getStringArrayListExtra("PLAYERS_LISTS");
 
         personItems = PersonItem.parseStringList(playersTemp);
         personListViewAdapter = new PersonListViewAdapter(this, personItems);
         personList.setAdapter(personListViewAdapter);
         Intent intent = getIntent();
-        // #RADY: stała z adekwatna nazwa
         numberOfPlayers = intent.getIntExtra("number_picker_value", 0);
         initializeProgressBar();
         listeners();
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            playersResults.add(new ResultSugar(personListViewAdapter.getName(i), 0, new ArrayList<>()));
+            playersResults.add(new CourseResult(personListViewAdapter.getName(i), 0, new ArrayList<>()));
+            ResultController.save(playersResults.get(0));
         }
         if (laneNumber == 0) {
             previousButton.setEnabled(false);
@@ -89,12 +87,10 @@ public class RoundActivity extends AppCompatActivity {
     private void initializeProgressBar() {
         progress1.setProgressColor(getResources().getColor(R.color.th5));
         progress1.setProgressBackgroundColor(getResources().getColor(R.color.th2));
-        // #RADY: stała z adekwatna nazwa
         progress1.setMax(17);
         progress1.setProgress(laneNumber);
     }
 
-    // #RADY: nazwy metod muszę być czasownikiem
     private void listeners() {
         nextButton.setOnClickListener(s -> {
             AnimationUtils.animateRefresh(this, personList);
@@ -128,14 +124,14 @@ public class RoundActivity extends AppCompatActivity {
 
     private void fullFillingList() {
 
-        ResultSugar result = new ResultSugar();
+        CourseResult result = new CourseResult();
 
         for (int i = 0; i < numberOfPlayers; i++) {
 
             playersResults.get(i).setWholeResult(playersResults.get(i).getWholeResult() + personListViewAdapter.getNumberByPosition(i));
             playersResults.get(i).addResult(personListViewAdapter.getNumberByPosition(i));
         }
-        result.save();
+        ResultController.save(result);
     }
 
 

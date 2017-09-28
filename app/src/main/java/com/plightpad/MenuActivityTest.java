@@ -11,10 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.typeicons_typeface_library.Typeicons;
@@ -27,22 +24,11 @@ import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.OnBoomListener;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.nightonke.boommenu.Util;
-import com.plightpad.adapters.FoldingCellListAdapter;
-import com.plightpad.controllers.SugarCoursesController;
-import com.plightpad.items.ListItem;
-import com.plightpad.sugardomain.CourseSugar;
-import com.ramotion.foldingcell.FoldingCell;
 import com.shawnlin.numberpicker.NumberPicker;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import devlight.io.library.ntb.NavigationTabBar;
 
 import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Random;
-import java.util.zip.Inflater;
 
 import static android.widget.Toast.makeText;
 import static com.google.common.util.concurrent.Runnables.doNothing;
@@ -140,7 +126,7 @@ public class MenuActivityTest extends Activity {
     //    private void initializeFoldingList() {
 //        ListItem item = new ListItem();
 ////        databaseLoadCourses();
-//        List<CourseSugar> courseList = SugarCoursesController.getAllSugarCourses();
+//        List<Course> courseList = CoursesController.getAllCourses();
 ////        item.addCourseToListOfItems();
 //        item.clearListOfItems();
 //        item.addSugarCourses(courseList);
@@ -245,28 +231,9 @@ public class MenuActivityTest extends Activity {
                         .textSize(18)
                         .imagePadding(new Rect(Util.dp2px(5), Util.dp2px(5), Util.dp2px(5), Util.dp2px(5)))
                         .listener(i -> {
-                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-                            View customView = inflater.inflate(R.layout.number_chooser, null);
-                            new MaterialStyledDialog.Builder(this)
-                                    .setTitle(getResources().getString(R.string.set_number_of_players))
-                                    .setCustomView(customView)
-                                    .setIcon(iconRoundnc)
-                                    .withDialogAnimation(true)
-                                    .setScrollable(true)
-                                    .setPositiveText(getResources().getString(R.string.FAB_apply_new_round))
-                                    .setNegativeText(getResources().getString(R.string.FAB_cancer))
-                                    .setCancelable(true)
-                                    .withDivider(true)
-                                    .onNegative((d, p) -> doNothing())
-                                    .onPositive((d, p) -> {
-                                        Intent in = new Intent(this, RoundSettingsActivity.class);
-                                        NumberPicker numberPicker = (NumberPicker) customView.findViewById(R.id.number_picker);
-                                        in.putExtra("number_picker_value", numberPicker.getValue());
-                                        startActivity(in);
-                                    })
-                                    .show();
-
+                            Intent in = new Intent(this, RoundSettingsActivity.class);
+                            in.putExtra("number_picker_value", 3);
+                            startActivity(in);
                         })
         );
     }

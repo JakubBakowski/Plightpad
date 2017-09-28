@@ -4,6 +4,16 @@
     android:layout_below="@id/choose_ball_dialog_title"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/no_ball_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="@string/no_balls_added_yet"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -12,5 +22,6 @@
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:scrollbars="none" />
+
 
 </LinearLayout>

@@ -1,23 +1,35 @@
 package com.plightpad;
 
 import android.app.Application;
-import android.graphics.Typeface;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
-/**
- * Created by mabak on 13.07.2017.
- */
+import com.plightpad.boxdomain.MyObjectBox;
+
+import io.objectbox.BoxStore;
+import lombok.Getter;
 
 public class App extends Application {
-    private static final String CANARO_EXTRA_BOLD_PATH = "fonts/canaro_extra_bold.otf";
-    public static Typeface canaroExtraBold;
+
+    private static App sApp;
+
+    @Getter
+    private BoxStore boxStore;
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initTypeface();
+        sApp = this;
+        boxStore = MyObjectBox.builder().androidContext(App.this).build();
     }
 
-    private void initTypeface() {
-        canaroExtraBold = Typeface.createFromAsset(getAssets(), CANARO_EXTRA_BOLD_PATH);
+    public static App getApp() {
+        return sApp;
     }
 }

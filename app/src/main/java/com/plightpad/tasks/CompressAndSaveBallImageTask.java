@@ -6,14 +6,14 @@ import android.os.AsyncTask;
 
 import com.plightpad.LanesActivity;
 import com.plightpad.MenuActivity;
-import com.plightpad.controllers.SugarBallsController;
-import com.plightpad.sugardomain.BallSugar;
+import com.plightpad.repository.BallsController;
+import com.plightpad.boxdomain.Ball;
 import com.plightpad.tools.DrawableUtils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Szczypiorek on 15.08.2017.
@@ -23,10 +23,10 @@ public class CompressAndSaveBallImageTask extends AsyncTask<String, Void, String
 
     private Bitmap ballPhoto;
     private Context context;
-    private BallSugar bs;
+    private Ball bs;
     private boolean isLanesActivity;
 
-    public CompressAndSaveBallImageTask(Context context, Bitmap ballPhoto, BallSugar bs, boolean isLanesActivity) {
+    public CompressAndSaveBallImageTask(Context context, Bitmap ballPhoto, Ball bs, boolean isLanesActivity) {
         this.ballPhoto = ballPhoto;
         this.context = context;
         this.bs = bs;
@@ -40,14 +40,15 @@ public class CompressAndSaveBallImageTask extends AsyncTask<String, Void, String
         ballPhoto = DrawableUtils.scaleDown(ballPhoto, 600.0f, true);
         ballPhoto.compress(Bitmap.CompressFormat.JPEG, 100, bos);
         try {
-            FileOutputStream fos = context.openFileOutput(bs.getId().toString(), Context.MODE_PRIVATE);
+            String imagePath = String.valueOf(bs.getId()) + new Date().toString().replace(" ", "");
+            FileOutputStream fos = context.openFileOutput(imagePath, Context.MODE_PRIVATE);
             fos.write(bos.toByteArray());
-            bs.setImagePath(bs.getId().toString());
+            bs.setImagePath(imagePath);
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SugarBallsController.saveBall(bs);
+        BallsController.saveBall(bs);
         ballPhoto = null;
 
         if(isLanesActivity) {
