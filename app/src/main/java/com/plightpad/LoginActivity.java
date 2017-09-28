@@ -46,7 +46,6 @@ import com.google.firebase.auth.TwitterAuthProvider;
 
 import com.ldoublem.loadingviewlib.view.LVBlock;
 import com.plightpad.tools.BaseActivity;
-import com.rey.material.widget.Button;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -81,9 +80,9 @@ public class LoginActivity extends BaseActivity implements GoogleApiClient.Conne
     @BindView(R.id.twitter_button_better)
     public FancyButton twitterBetterBtn;
     @BindView(R.id.custom_login_button)
-    public Button customLoginButton;
+    public FancyButton customLoginButton;
     @BindView(R.id.custom_register_button)
-    public Button customRegisterButton;
+    public FancyButton customRegisterButton;
     @BindView(R.id.google_sign_in_official_button)
     SignInButton googleOriginalButton;
 

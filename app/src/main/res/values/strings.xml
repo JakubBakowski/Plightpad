@@ -116,4 +116,7 @@
     <string name="alerter_default_title">Informacja</string>
     <string name="attach_ball_to_the_lane">Przypisz piłkę</string>
     <string name="attach_notes_photo_to_the_lane">Dołącz zdjęcie</string>
+    <string name="something_went_wrong">Coś poszło nie tak.</string>
+    <string name="no_courses_added_yet">Nie dodano jeszcze żadnych pól.</string>
+    <string name="no_balls_added_yet">Nie dodano jeszcze żadnych piłek.</string>
 </resources>

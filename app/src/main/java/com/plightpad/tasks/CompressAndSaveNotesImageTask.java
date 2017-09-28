@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.plightpad.LanesActivity;
-import com.plightpad.MenuActivity;
-import com.plightpad.controllers.SugarBallsController;
-import com.plightpad.controllers.SugarLanesController;
-import com.plightpad.sugardomain.LaneSugar;
+import com.plightpad.repository.LanesController;
+import com.plightpad.boxdomain.Lane;
 import com.plightpad.tools.DrawableUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -24,12 +22,12 @@ public class CompressAndSaveNotesImageTask extends AsyncTask<String, Void, Strin
 
     private Bitmap notesPhoto;
     private Context context;
-    private LaneSugar laneSugar;
+    private Lane lane;
 
-    public CompressAndSaveNotesImageTask(Context context, Bitmap notesPhoto, LaneSugar laneSugar) {
+    public CompressAndSaveNotesImageTask(Context context, Bitmap notesPhoto, Lane lane) {
         this.notesPhoto = notesPhoto;
         this.context = context;
-        this.laneSugar = laneSugar;
+        this.lane = lane;
     }
 
     @Override
@@ -39,15 +37,15 @@ public class CompressAndSaveNotesImageTask extends AsyncTask<String, Void, Strin
         notesPhoto = DrawableUtils.scaleDown(notesPhoto, 600.0f, true);
         notesPhoto.compress(Bitmap.CompressFormat.JPEG, 100, bos);
         try {
-            String imagePath = laneSugar.getId().toString() + new Date().toString().replace(" ", "");
+            String imagePath = String.valueOf(lane.id) + new Date().toString().replace(" ", "");
             FileOutputStream fos = context.openFileOutput(imagePath, Context.MODE_PRIVATE);
             fos.write(bos.toByteArray());
-            laneSugar.setNotesImagePath(imagePath);
+            lane.notesImagePath = imagePath;
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SugarLanesController.saveSugarLane(laneSugar);
+        LanesController.saveSugarLane(lane);
         notesPhoto = null;
 
         ((LanesActivity) context).runOnUiThread(new Runnable() {

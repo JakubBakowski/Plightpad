@@ -1,6 +1,5 @@
 package com.plightpad;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ldoublem.loadingviewlib.view.LVBlock;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -44,11 +42,10 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.nightonke.boommenu.Util;
 import com.plightpad.adapters.BallListAdapter;
 import com.plightpad.adapters.FoldingCellListAdapter;
-import com.plightpad.controllers.SugarBallsController;
-import com.plightpad.controllers.SugarCoursesController;
-import com.plightpad.items.ListItem;
-import com.plightpad.sugardomain.BallSugar;
-import com.plightpad.sugardomain.CourseSugar;
+import com.plightpad.repository.BallsController;
+import com.plightpad.repository.CoursesController;
+import com.plightpad.boxdomain.Ball;
+import com.plightpad.boxdomain.Course;
 import com.plightpad.tasks.CompressAndSaveBallImageTask;
 import com.plightpad.tools.DialogUtils;
 import com.plightpad.tools.DrawableUtils;
@@ -56,8 +53,6 @@ import com.plightpad.tools.GalleryUtils;
 import com.plightpad.tools.IconUtils;
 import com.plightpad.tools.Utils;
 import com.ramotion.foldingcell.FoldingCell;
-
-import com.shawnlin.numberpicker.NumberPicker;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
@@ -72,7 +67,6 @@ import devlight.io.library.ntb.NavigationTabBar;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 import static android.widget.Toast.makeText;
-import static com.google.common.util.concurrent.Runnables.doNothing;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -94,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void initializeViewStates() {
-        addBallPhotoBtn.setOnClickListener(s -> GalleryUtils.pickPhoto(this));
+        addBallPhotoBtn.setOnClickListener(s -> GalleryUtils.pickOnePhoto(this));
         saveBallBtn.setOnClickListener(s -> saveBall());
         editBallRelativeLayout.setVisibility(View.GONE);
         editBallTitle.setText(getResources().getString(R.string.add_ball));
@@ -187,28 +181,9 @@ public class MenuActivity extends AppCompatActivity {
                         .textSize(18)
                         .imagePadding(new Rect(Util.dp2px(5), Util.dp2px(5), Util.dp2px(5), Util.dp2px(5)))
                         .listener(i -> {
-                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-                            View customView = inflater.inflate(R.layout.number_chooser, null);
-                            new MaterialStyledDialog.Builder(this)
-                                    .setTitle(getResources().getString(R.string.set_number_of_players))
-                                    .setCustomView(customView)
-                                    .setIcon(iconRoundnc)
-                                    .withDialogAnimation(true)
-                                    .setScrollable(true)
-                                    .setPositiveText(getResources().getString(R.string.FAB_apply_new_round))
-                                    .setNegativeText(getResources().getString(R.string.FAB_cancer))
-                                    .setCancelable(true)
-                                    .withDivider(true)
-                                    .onNegative((d, p) -> doNothing())
-                                    .onPositive((d, p) -> {
-                                        Intent in = new Intent(this, RoundSettingsActivity.class);
-                                        NumberPicker numberPicker = (NumberPicker) customView.findViewById(R.id.number_picker);
-                                        in.putExtra("number_picker_value", numberPicker.getValue());
-                                        startActivity(in);
-                                    })
-                                    .show();
-
+                            Intent in = new Intent(this, RoundSettingsActivity.class);
+                            in.putExtra("number_picker_value", 3);
+//                            startActivity(in);
                         })
         );
     }
@@ -239,15 +214,19 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private ListView courseListView;
+    private TextView noCourseTitle;
 
     private void initializeFoldingList(View view) {
-        ListItem item = new ListItem();
-        List<CourseSugar> courseList = SugarCoursesController.getAllSugarCourses();
-        item.clearListOfItems();
-        item.addSugarCourses(courseList);
-        final List<ListItem> items = item.getActualListOfAllItems();
-
-        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items, false, courseList);
+        List<Course> courseList = CoursesController.getAllCourses();
+        if (view != null) {
+            noCourseTitle = (TextView) view.findViewById(R.id.no_courses_title);
+        }
+        if (courseList.isEmpty()) {
+            noCourseTitle.setVisibility(View.VISIBLE);
+        } else {
+            noCourseTitle.setVisibility(View.GONE);
+        }
+        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, courseList, false, courseList);
         if (view != null) {
             courseListView = (ListView) view.findViewById(R.id.list);
         }
@@ -349,9 +328,19 @@ public class MenuActivity extends AppCompatActivity {
 
     private RecyclerView ballListView;
 
+    TextView noBallTitle;
+
     public void initializeBallsList(View view) {
-        List<BallSugar> ballSugars = SugarBallsController.getAllBalls();
-        BallListAdapter bla = new BallListAdapter(this, ballSugars, false);
+        List<Ball> balls = BallsController.getAllBalls();
+        if (view != null) {
+            noBallTitle = (TextView) view.findViewById(R.id.no_ball_title);
+        }
+        if (balls.isEmpty()) {
+            noBallTitle.setVisibility(View.VISIBLE);
+        } else {
+            noBallTitle.setVisibility(View.GONE);
+        }
+        BallListAdapter bla = new BallListAdapter(this, balls, false);
         if (view != null) {
             ballListView = (RecyclerView) view.findViewById(R.id.list);
         }
@@ -431,14 +420,14 @@ public class MenuActivity extends AppCompatActivity {
 
     private void saveBall() {
         if (validateBallForm()) {
-            BallSugar bs = new BallSugar(
+            Ball bs = new Ball(
                     ballOwnNameTil.getEditText().getText() != null ? ballOwnNameTil.getEditText().getText().toString() : "",
                     ballManufacturerTil.getEditText().getText() != null ? ballManufacturerTil.getEditText().getText().toString() : "",
                     ballModelTil.getEditText().getText() != null ? ballManufacturerTil.getEditText().getText().toString() : "",
                     Double.valueOf(ballWeightTil.getEditText().getText().toString()),
                     Double.valueOf(ballSizeTil.getEditText().getText().toString()),
                     Double.valueOf(ballHardnessTil.getEditText().getText().toString()));
-            SugarBallsController.saveBall(bs);
+            BallsController.saveBall(bs);
             if (ballPhoto != null) {
                 showProgressDialog();
                 new CompressAndSaveBallImageTask(MenuActivity.this, ballPhoto, bs, false).execute();

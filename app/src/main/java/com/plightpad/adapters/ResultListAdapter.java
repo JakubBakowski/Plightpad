@@ -8,24 +8,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.plightpad.R;
-import com.plightpad.items.PersonItem;
-import com.plightpad.sugardomain.ResultSugar;
-import com.shawnlin.numberpicker.NumberPicker;
+import com.plightpad.boxdomain.CourseResult;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by mabak on 09.08.2017.
  */
 
-public class ResultListAdapter extends ArrayAdapter<ResultSugar> {
-    List<ResultSugar> personItemList = new ArrayList<>();
+public class ResultListAdapter extends ArrayAdapter<CourseResult> {
+    List<CourseResult> personItemList = new ArrayList<>();
     Context context;
 
-    public ResultListAdapter(Context context, List<ResultSugar> personItems) {
+    public ResultListAdapter(Context context, List<CourseResult> personItems) {
         super(context, 0, personItems);
         this.context = context;
         this.personItemList = personItems;
@@ -35,7 +31,7 @@ public class ResultListAdapter extends ArrayAdapter<ResultSugar> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Get the data item for this position
-        ResultSugar resultSugar = getItem(position);
+        CourseResult courseResult = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.result_list_item, parent, false);
@@ -46,8 +42,8 @@ public class ResultListAdapter extends ArrayAdapter<ResultSugar> {
         TextView result =(TextView)convertView.findViewById(R.id.person_result);
 
         // Populate the data into the template view using the data object
-          name.setText(resultSugar.getName());
-          result.setText(String.valueOf(resultSugar.getWholeResult()));
+          name.setText(courseResult.getName());
+          result.setText(String.valueOf(courseResult.getWholeResult()));
 //        result.setText(personItem.getValue());
         // Return the completed view to render on screen
         return convertView;

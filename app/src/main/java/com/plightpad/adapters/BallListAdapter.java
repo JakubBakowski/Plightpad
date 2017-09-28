@@ -1,8 +1,12 @@
 package com.plightpad.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +19,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
+import com.github.oliveiradev.image_zoom.lib.widget.ZoomAnimation;
+import com.meetic.marypopup.MaryPopup;
 import com.plightpad.LanesActivity;
 import com.plightpad.R;
-import com.plightpad.sugardomain.BallSugar;
+import com.plightpad.boxdomain.Ball;
 import com.plightpad.tools.AnimationUtils;
+import com.plightpad.tools.DrawableUtils;
 import com.plightpad.tools.IconUtils;
-import com.plightpad.tools.ZoomInUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BallListAdapter extends RecyclerView.Adapter<BallListAdapter.ViewHolder> {
 
     private final Activity context;
-    private final List<BallSugar> balls;
+    private final List<Ball> balls;
     private boolean isChoosingState;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +52,6 @@ public class BallListAdapter extends RecyclerView.Adapter<BallListAdapter.ViewHo
         public TextView size;
         public RelativeLayout ballItemLayout;
         public boolean isBallZoomed;
-        public PhotoViewAttacher imageAttacher;
 
         public ViewHolder(View v) {
             super(v);
@@ -64,7 +68,7 @@ public class BallListAdapter extends RecyclerView.Adapter<BallListAdapter.ViewHo
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BallListAdapter(Activity context, List<BallSugar> balls, boolean isChoosingState) {
+    public BallListAdapter(Activity context, List<Ball> balls, boolean isChoosingState) {
         this.context = context;
         this.balls = balls;
         this.isChoosingState = isChoosingState;
@@ -114,14 +118,30 @@ public class BallListAdapter extends RecyclerView.Adapter<BallListAdapter.ViewHo
                 ((LanesActivity) context).saveBallToActualLane(balls.get(position));
             });
         }
-        holder.ballImageView.setOnClickListener(s -> scaleImageUp(holder.ballImageView, position));
+        holder.ballImageView.setOnClickListener(s ->
+                ZoomAnimation.zoom(s, ((CircleImageView)s).getDrawable(), context, false));
+//                scaleImageUp2(holder.ballImageView));
     }
 
-    private boolean scaleImageUp(View view, int position){
-        Rect actualRect = new Rect();
-        view.getGlobalVisibleRect(actualRect);
-        AnimationUtils.animateScaleUp(context, view, actualRect, position);
-        return true;
+    private void scaleImageUp(CircleImageView fromView){
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.image_popup_layout, null);
+        ((ImageView)view.findViewById(R.id.zoomed_image_view)).setImageBitmap(DrawableUtils.drawableToBitmap(fromView.getDrawable()));
+        MaryPopup.with(context)
+                .cancellable(true)
+                .draggable(true)
+                .scaleDownDragging(true)
+                .fadeOutDragging(true)
+                .center(true)
+                .blackOverlayColor(Color.parseColor("#DD444444"))
+                .backgroundColor(Color.parseColor("#EFF4F5"))
+                .content(view)
+                .from(fromView)
+                .show();
+    }
+
+    private void scaleImageUp2(){
+
     }
 
     private void loadPicture(CircleImageView view, String path) {

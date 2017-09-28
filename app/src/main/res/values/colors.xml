@@ -70,4 +70,5 @@
 
     <!--RESULT COLORS-->
     <color name="drawing_pen_color">#007fc9</color>
+    <color name="transparent_white">#60ffffff</color>
 </resources>

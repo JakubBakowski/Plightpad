@@ -1,7 +1,6 @@
 package com.plightpad.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,17 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.plightpad.LanesActivity;
 import com.plightpad.R;
 import com.plightpad.items.CardDataImpl;
 import com.plightpad.overridenec.ECCardContentListItemAdapterOverriden;
-import com.plightpad.sugardomain.BallSugar;
+import com.plightpad.boxdomain.Ball;
 import com.plightpad.tools.GalleryUtils;
 import com.plightpad.tools.IconUtils;
 
-import java.io.File;
 import java.util.List;
 
 import mehdi.sakout.fancybuttons.FancyButton;
@@ -72,8 +68,8 @@ public class LanesListAdapter extends ECCardContentListItemAdapterOverriden<Card
 
         CardDataImpl cdi = getItem(position);
         if (cdi != null && cdi.getLane() != null) {
-            if (cdi.getLane().getBall() != null) {
-                BallSugar ball = cdi.getLane().getBall();
+            if (cdi.getLane().ball.getTarget() != null) {
+                Ball ball = cdi.getLane().ball.getTarget();
                 viewHolder.ballWeightText.setText(String.valueOf(ball.getWeight()));
                 viewHolder.ballHardnessText.setText(String.valueOf(ball.getHardness()));
                 viewHolder.ballSizeText.setText(String.valueOf(ball.getSize()));
@@ -81,8 +77,8 @@ public class LanesListAdapter extends ECCardContentListItemAdapterOverriden<Card
                 loadImageWithGlide(IconUtils.bitmapToByteArray(IconUtils.getWeightIcon(context).toBitmap()), viewHolder.ballWeightIcon);
                 loadImageWithGlide(IconUtils.bitmapToByteArray(IconUtils.getSizeIcon(context).toBitmap()), viewHolder.ballSizeIcon);
             }
-            if (cdi.getLane().getNotesImagePath() != null) {
-                loadImageWithGlideFromStorage(cdi.getLane().getNotesImagePath(), viewHolder.notesImage);
+            if (cdi.getLane().notesImagePath != null) {
+                loadImageWithGlideFromStorage(cdi.getLane().notesImagePath, viewHolder.notesImage);
             }
         }
         return rowView;
@@ -121,7 +117,7 @@ public class LanesListAdapter extends ECCardContentListItemAdapterOverriden<Card
         if (context instanceof LanesActivity) {
             ((LanesActivity) context).setChoosingNotesPhoto(true);
         }
-        GalleryUtils.pickPhoto(context);
+        GalleryUtils.pickOnePhoto(context);
     }
 
 }

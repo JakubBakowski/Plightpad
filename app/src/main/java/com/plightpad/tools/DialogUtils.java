@@ -3,24 +3,19 @@ package com.plightpad.tools;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.andreilisun.swipedismissdialog.SwipeDismissDialog;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.iconics.view.IconicsImageView;
 import com.plightpad.LoginActivity;
 import com.plightpad.R;
 import com.plightpad.adapters.ResultListAdapter;
 import com.plightpad.data.AlerterContent;
-import com.plightpad.sugardomain.ResultSugar;
+import com.plightpad.boxdomain.CourseResult;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.List;
@@ -66,7 +61,7 @@ public class DialogUtils {
             context.startActivity(new Intent(context, LoginActivity.class));
         });
     }
-    public static void showResultDialog (Context context, List<ResultSugar> playerList) {
+    public static void showResultDialog (Context context, List<CourseResult> playerList) {
         View dialog = LayoutInflater.from(context).inflate(R.layout.round_dialog, null);
         new SwipeDismissDialog.Builder(context)
                 .setView(dialog)
